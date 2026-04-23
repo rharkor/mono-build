@@ -1,5 +1,5 @@
 {
-  "name": "turbo-build-context",
+  "name": "mono-build",
   "displayName": "Turborepo quick build",
   "description": "Build a package or its dependencies from the Explorer or editor context menu in a turborepo.",
   "version": "0.0.1",
