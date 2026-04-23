@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Extension (turbo-build-context)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "${workspaceFolder}/turbo-build-context/_fixture_monorepo",
+        "--extensionDevelopmentPath=${workspaceFolder}/turbo-build-context"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/turbo-build-context/out/**/*.js"
+      ],
+      "preLaunchTask": "ext: compile turbo-build-context"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "ext: compile turbo-build-context",
+      "options": { "cwd": "${workspaceFolder}/turbo-build-context" },
+      "command": "npm run compile",
+      "problemMatcher": ["$tsc"]
+    }
+  ]
+}

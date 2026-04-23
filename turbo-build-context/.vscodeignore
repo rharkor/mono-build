@@ -1,0 +1,12 @@
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+**/*.map
+**/*.ts
+!**/out/**/*.ts
+tsconfig.json
+**/*.tsbuildinfo
+_fixture_monorepo/**
+node_modules/**
+!node_modules/**/package.json

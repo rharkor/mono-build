@@ -1,0 +1,72 @@
+{
+  "name": "turbo-build-context",
+  "displayName": "Turborepo quick build",
+  "description": "Build a package or its dependencies from the Explorer or editor context menu in a turborepo.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:turboBuildContext.buildPackage",
+    "onCommand:turboBuildContext.buildPackageDeps"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "turboBuildContext.buildPackage",
+        "title": "Build package (npm run build)"
+      },
+      {
+        "command": "turboBuildContext.buildPackageDeps",
+        "title": "Build this package's dependencies (turbo build)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "turboBuildContext.buildPackage",
+          "group": "navigation@40",
+          "when": "resourceScheme == 'file' && !explorerResourceIsRoot",
+          "args": ["${resource}"]
+        },
+        {
+          "command": "turboBuildContext.buildPackageDeps",
+          "group": "navigation@41",
+          "when": "resourceScheme == 'file' && !explorerResourceIsRoot",
+          "args": ["${resource}"]
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "turboBuildContext.buildPackage",
+          "group": "1_modification@20",
+          "when": "resourceScheme == 'file' && isFileSystemResource",
+          "args": ["${resource}"]
+        },
+        {
+          "command": "turboBuildContext.buildPackageDeps",
+          "group": "1_modification@21",
+          "when": "resourceScheme == 'file' && isFileSystemResource",
+          "args": ["${resource}"]
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.3.0"
+  }
+}

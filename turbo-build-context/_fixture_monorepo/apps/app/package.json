@@ -1,0 +1,10 @@
+{
+  "name": "@fixture/app",
+  "version": "0.0.0",
+  "dependencies": {
+    "@fixture/lib": "0.0.0"
+  },
+  "scripts": {
+    "build": "node -e \"console.log('build app')\""
+  }
+}
