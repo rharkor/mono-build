@@ -3,7 +3,16 @@
   "displayName": "Turborepo quick build",
   "description": "Build a package or its dependencies from the Explorer or editor context menu in a turborepo.",
   "version": "0.0.1",
-  "publisher": "local",
+  "publisher": "rharkor",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rharkor/mono-build.git"
+  },
+  "homepage": "https://github.com/rharkor/mono-build/tree/main",
+  "bugs": {
+    "url": "https://github.com/rharkor/mono-build/issues"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
