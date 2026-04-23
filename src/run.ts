@@ -3,17 +3,19 @@ import * as vscode from "vscode";
 const DEFAULT_TERMINAL = "Turborepo: build";
 
 /**
- * Build argument for npx: filter value is `^<name>...` (dependencies only, excluding the package).
+ * Turbo 2+ filter: `<name>^...` omits the package and runs only its dependencies
+ * (see microsyntax at https://turbo.build/repo/docs/reference/run#--filter).
+ * Do not use `^<name>...` — that is parsed as a literal package name starting with `^`.
  */
 function turboFilterArg(packageName: string): string {
 	if (packageName.includes('"') || packageName.includes("\n")) {
 		throw new Error("Package name cannot contain double quotes or newlines");
 	}
-	return `^${packageName}...`;
+	return `${packageName}^...`;
 }
 
 /**
- * Quoted form safe for `sendText` in bash-like shells: --filter="^@scope/pkg..."
+ * Quoted form safe for `sendText` in bash-like shells: --filter="@scope/pkg^..."
  */
 function shQuoteForDoubleQuotes(s: string): string {
 	return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');

@@ -1,0 +1,7 @@
+
+
+> @fixture/lib@0.0.0 build
+> node -e "console.log('build lib')"
+
+build lib
+⠙[1G[0K
