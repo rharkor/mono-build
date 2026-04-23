@@ -10,10 +10,6 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:turboBuildContext.buildPackage",
-    "onCommand:turboBuildContext.buildPackageDeps"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -32,13 +28,17 @@
           "command": "turboBuildContext.buildPackage",
           "group": "navigation@40",
           "when": "resourceScheme == 'file' && !explorerResourceIsRoot",
-          "args": ["${resource}"]
+          "args": [
+            "${resource}"
+          ]
         },
         {
           "command": "turboBuildContext.buildPackageDeps",
           "group": "navigation@41",
           "when": "resourceScheme == 'file' && !explorerResourceIsRoot",
-          "args": ["${resource}"]
+          "args": [
+            "${resource}"
+          ]
         }
       ],
       "editor/context": [
@@ -46,13 +46,17 @@
           "command": "turboBuildContext.buildPackage",
           "group": "1_modification@20",
           "when": "resourceScheme == 'file' && isFileSystemResource",
-          "args": ["${resource}"]
+          "args": [
+            "${resource}"
+          ]
         },
         {
           "command": "turboBuildContext.buildPackageDeps",
           "group": "1_modification@21",
           "when": "resourceScheme == 'file' && isFileSystemResource",
-          "args": ["${resource}"]
+          "args": [
+            "${resource}"
+          ]
         }
       ]
     }
