@@ -13,6 +13,7 @@
   "bugs": {
     "url": "https://github.com/rharkor/mono-build/issues"
   },
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.80.0"
   },

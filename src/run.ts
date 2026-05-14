@@ -24,26 +24,33 @@ function isPowerShellShell(): boolean {
 }
 
 /**
- * Run a line in the default terminal profile, then wait for a key/Enter
- * and exit the shell so the session can be closed.
+ * Run a line in the default terminal profile. On success, exit the shell so
+ * the panel can clear. On failure, wait for Enter so the user can read output.
  */
-function withPressToClose(command: string): string {
+function withPressToCloseOnFailure(command: string): string {
 	if (usePosixStyleClosePrompt()) {
-		// bash/zsh/sh: `read -p` is not portable for zsh; use echo + read -r, then exit the shell.
 		return (
 			`${command}; ` +
-			"echo; echo 'Press Enter to close this terminal...'; " +
-			"read -r; exit"
+			"__mb=$?; " +
+			"if [ $__mb -eq 0 ]; then exit $__mb; fi; " +
+			"echo; echo 'Build failed. Press Enter to close this terminal...'; " +
+			"read -r; exit $__mb"
 		);
 	}
-	// Default VS Code shell on Windows is often PowerShell; `pause` is a cmd built-in.
 	if (isPowerShellShell() || (vscode.env.shell ?? "") === "") {
 		return (
 			`${command}; ` +
-			"Read-Host 'Press Enter to close this terminal'; exit"
+			"$__mb = $LASTEXITCODE; " +
+			"if ($__mb -eq 0) { exit 0 }; " +
+			"Write-Host ''; Write-Host 'Build failed. Press Enter to close this terminal...'; " +
+			"Read-Host; exit $__mb"
 		);
 	}
-	return `${command} & echo. & pause & exit`;
+	return (
+		`${command} & ` +
+		"if errorlevel 1 (echo. & echo Build failed. Press any key to close this terminal... & pause & exit /b 1) " +
+		"else (exit /b 0)"
+	);
 }
 
 /**
@@ -71,7 +78,7 @@ export function runNpmBuildInDirectory(packageRoot: string): void {
 		cwd: packageRoot,
 	});
 	t.show();
-	t.sendText(withPressToClose("npm run build"), true);
+	t.sendText(withPressToCloseOnFailure("npm run build"), true);
 }
 
 export function runTurboBuildDeps(
@@ -86,7 +93,7 @@ export function runTurboBuildDeps(
 	t.show();
 	const quoted = shQuoteForDoubleQuotes(filterValue);
 	t.sendText(
-		withPressToClose(
+		withPressToCloseOnFailure(
 			`npx turbo run build --filter="${quoted}" --output-logs=new-only`,
 		),
 		true,

@@ -11,7 +11,7 @@ Run **`npm run build`** in the package that owns the current file, or run **Turb
   - `npx turbo run build --filter="<name>^..." --output-logs=new-only`  
   The `^` before `...` is [Turbo 2’s “omit the target; include dependencies” filter](https://turbo.build/repo/docs/reference/run#--filter) (not `^<name>...`).
 
-After the command finishes, the integrated terminal prompts you to press **Enter** (or a key, on Windows) before the shell exits.
+When the build **succeeds**, the shell exits right away so the terminal session can close without a prompt. If it **fails**, the terminal waits for **Enter** (or a key on classic Windows **cmd**) so you can read the logs before closing.
 
 ## Requirements
 
