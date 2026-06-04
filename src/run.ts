@@ -2,6 +2,21 @@ import * as vscode from "vscode";
 
 const DEFAULT_TERMINAL = "Turborepo: build";
 
+/** Avoid npx/npm/turbo interactive prompts in the integrated terminal. */
+const NON_INTERACTIVE_TERMINAL_ENV: Record<string, string> = {
+	CI: "true",
+	NPM_CONFIG_YES: "true",
+	TURBO_UI: "stream",
+};
+
+function createBuildTerminal(cwd: string): vscode.Terminal {
+	return vscode.window.createTerminal({
+		name: DEFAULT_TERMINAL,
+		cwd,
+		env: NON_INTERACTIVE_TERMINAL_ENV,
+	});
+}
+
 /** Not PowerShell/cmd (e.g. macOS, Linux, Git Bash, WSL). */
 function usePosixStyleClosePrompt(): boolean {
 	if (process.platform !== "win32") {
@@ -73,10 +88,7 @@ function shQuoteForDoubleQuotes(s: string): string {
 }
 
 export function runNpmBuildInDirectory(packageRoot: string): void {
-	const t = vscode.window.createTerminal({
-		name: DEFAULT_TERMINAL,
-		cwd: packageRoot,
-	});
+	const t = createBuildTerminal(packageRoot);
 	t.show();
 	t.sendText(withPressToCloseOnFailure("npm run build"), true);
 }
@@ -86,15 +98,12 @@ export function runTurboBuildDeps(
 	packageName: string,
 ): void {
 	const filterValue = turboFilterArg(packageName);
-	const t = vscode.window.createTerminal({
-		name: DEFAULT_TERMINAL,
-		cwd: monorepoRoot,
-	});
+	const t = createBuildTerminal(monorepoRoot);
 	t.show();
 	const quoted = shQuoteForDoubleQuotes(filterValue);
 	t.sendText(
 		withPressToCloseOnFailure(
-			`npx turbo run build --filter="${quoted}" --output-logs=new-only`,
+			`npx --yes turbo run build --filter="${quoted}" --output-logs=new-only --ui=stream`,
 		),
 		true,
 	);
